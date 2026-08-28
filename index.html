@@ -588,8 +588,7 @@
     .modal-card {
       background: #ffffff;
       width: 100%;
-      max-width: 700px;
-      max-height: 90vh;
+      max-width: 480px;
       border-radius: var(--radius);
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
       display: flex;
@@ -597,110 +596,49 @@
       overflow: hidden;
       transform: scale(0.96);
       transition: transform 0.25s ease;
+      text-align: center;
     }
 
     .modal-backdrop.show .modal-card {
       transform: scale(1);
     }
 
-    .modal-header {
-      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-      color: #fff;
-      padding: 22px 26px;
-      text-align: center;
-    }
-
-    .modal-header h2 {
-      font-size: 1.4rem;
-      margin-bottom: 4px;
+    .modal-icon-circle {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: #ecfdf5;
+      color: #10b981;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      margin: 0 auto 14px auto;
+      border: 2px solid #a7f3d0;
     }
 
     .modal-body {
-      padding: 22px 26px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+      padding: 32px 28px 24px 28px;
     }
 
-    .summary-stat-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .stat-card {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 14px;
-      text-align: center;
-    }
-
-    .stat-value {
-      font-size: 1.9rem;
+    .modal-title {
+      font-size: 1.35rem;
       font-weight: 800;
-      color: var(--primary);
-    }
-
-    .stat-label {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .breakdown-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .breakdown-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 9px 12px;
-      background: #f8fafc;
-      border-radius: var(--radius-sm);
-      font-size: 0.85rem;
-      border: 1px solid var(--border);
-    }
-
-    .breakdown-score-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 26px;
-      height: 26px;
-      border-radius: 6px;
-      color: #fff;
-      font-weight: 700;
-      font-size: 0.825rem;
-    }
-
-    .essay-summary-card {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 12px 14px;
-      font-size: 0.85rem;
-    }
-
-    .essay-summary-card h4 {
-      font-size: 0.85rem;
       color: var(--text);
-      margin-bottom: 4px;
+      margin-bottom: 8px;
+    }
+
+    .modal-desc {
+      font-size: 0.925rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-bottom: 24px;
     }
 
     .modal-footer {
-      padding: 14px 26px;
-      background: #f8fafc;
-      border-top: 1px solid var(--border);
+      padding: 0 28px 28px 28px;
       display: flex;
-      justify-content: flex-end;
-      gap: 12px;
+      justify-content: center;
     }
 
     @media (max-width: 640px) {
@@ -725,9 +663,6 @@
       }
       .rating-btn .score-desc {
         display: none;
-      }
-      .summary-stat-grid {
-        grid-template-columns: 1fr;
       }
       .action-bar {
         flex-direction: column;
@@ -891,21 +826,20 @@
 
 </div>
 
-<!-- Modal Rekap Hasil Evaluasi -->
+<!-- Modal Pop-up Berhasil Mengirim (Simple & Clean) -->
 <div class="modal-backdrop" id="resultModal">
   <div class="modal-card">
-    <div class="modal-header">
-      <h2>🎉 Evaluasi Berhasil Terkirim!</h2>
-      <p style="font-size: 0.9rem; opacity: 0.92;">Data telah berhasil disimpan ke database Firestore.</p>
-    </div>
-    
-    <div class="modal-body" id="modalBodyContent">
-      <!-- Hasil Ringkasan akan dimasukkan via JS -->
-    </div>
-
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" id="copyJsonBtn">Salin Data (JSON)</button>
-      <button type="button" class="btn btn-primary" id="closeModalBtn">Tutup</button>
+    <div class="modal-body">
+      <div class="modal-icon-circle">✓</div>
+      <h2 class="modal-title">Evaluasi Berhasil Dikirim!</h2>
+      <p class="modal-desc">
+        Terima kasih atas partisipasi dan penilaian yang telah kamu berikan. Masukanmu sangat berharga bagi guru untuk meningkatkan kualitas pembelajaran di pertemuan berikutnya.
+      </p>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="closeModalBtn" style="min-width: 140px; justify-content: center;">
+          Selesai
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -1096,15 +1030,11 @@
 
   const evaluationForm = document.getElementById("evaluationForm");
   const resultModal = document.getElementById("resultModal");
-  const modalBodyContent = document.getElementById("modalBodyContent");
   const closeModalBtn = document.getElementById("closeModalBtn");
-  const copyJsonBtn = document.getElementById("copyJsonBtn");
   const resetBtn = document.getElementById("resetBtn");
   const submitBtn = document.getElementById("submitBtn");
   const submitBtnText = document.getElementById("submitBtnText");
   const submitBtnIcon = document.getElementById("submitBtnIcon");
-
-  let latestSubmissionData = null;
 
   evaluationForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -1142,7 +1072,7 @@
 
     const averageScore = parseFloat((totalScore / allAspects.length).toFixed(2));
     
-    latestSubmissionData = {
+    const submissionData = {
       createdAtClient: new Date().toISOString(),
       createdAt: serverTimestamp(),
       topic: document.getElementById("topicInput").value.trim() || "Matematika",
@@ -1166,16 +1096,11 @@
 
     try {
       // Simpan langsung ke koleksi evaluasi_matematika di Firestore
-      const docRef = await addDoc(collection(db, "evaluasi_matematika"), latestSubmissionData);
-      console.log("Evaluasi berhasil disimpan dengan ID: ", docRef.id);
-      
-      latestSubmissionData.id = docRef.id;
-      renderModalSummary(latestSubmissionData, true);
+      await addDoc(collection(db, "evaluasi_matematika"), submissionData);
       resultModal.classList.add("show");
     } catch (err) {
       console.error("Gagal menyimpan ke Firestore: ", err);
-      alert("Catatan: Terjadi kendala saat menyimpan ke database Firestore (" + err.message + "). Formulir tetap dirangkum secara lokal.");
-      renderModalSummary(latestSubmissionData, false);
+      alert("Catatan: Terjadi kendala saat menyimpan ke database Firestore (" + err.message + ").");
       resultModal.classList.add("show");
     } finally {
       submitBtn.disabled = false;
@@ -1184,87 +1109,20 @@
     }
   });
 
-  function renderModalSummary(data, isOnlineSaved) {
-    const scoreColorClass = (score) => {
-      if (score <= 2) return "bg-1";
-      if (score <= 3) return "bg-3";
-      if (score <= 4) return "bg-4";
-      return "bg-5";
-    };
-
-    modalBodyContent.innerHTML = `
-      <div style="background: ${isOnlineSaved ? '#ecfdf5' : '#fffbeb'}; border: 1px solid ${isOnlineSaved ? '#a7f3d0' : '#fef08a'}; padding: 10px 14px; border-radius: var(--radius-sm); font-size: 0.85rem; color: ${isOnlineSaved ? '#065f46' : '#854d0e'}; display: flex; align-items: center; gap: 8px;">
-        <span>${isOnlineSaved ? '✅' : '⚠️'}</span>
-        <span>${isOnlineSaved ? 'Data evaluasi berhasil tersimpan ke Firestore (ID: ' + (data.id || '-') + ')' : 'Data tersimpan secara lokal'}</span>
-      </div>
-
-      <div class="summary-stat-grid">
-        <div class="stat-card">
-          <div class="stat-value">${data.averageRating} / 5.0</div>
-          <div class="stat-label">Skor Rata-Rata Pengajaran</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" style="font-size: 1.15rem; color: var(--text); padding-top: 8px;">${escapeHtml(data.topic)}</div>
-          <div class="stat-label">${escapeHtml(data.classSession)} • Oleh: ${escapeHtml(data.studentName)}</div>
-        </div>
-      </div>
-
-      <div>
-        <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 10px;">📊 Rekap Nilai per Aspek</h3>
-        <div class="breakdown-list">
-          ${Object.values(data.ratings).map(item => `
-            <div class="breakdown-row">
-              <span><strong>${escapeHtml(item.shortLabel)}</strong> <small style="color: var(--text-muted);">(${escapeHtml(item.category)})</small></span>
-              <span class="breakdown-score-badge ${scoreColorClass(item.score)}">${item.score}</span>
-            </div>
-          `).join("")}
-        </div>
-      </div>
-
-      <div>
-        <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 10px;">📝 Catatan & Saran Terbuka</h3>
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-          <div class="essay-summary-card">
-            <h4>⚠️ Masalah & Kendala Belajar:</h4>
-            <p style="color: var(--text-muted);">${escapeHtml(data.essays.issuesAndDifficulties)}</p>
-          </div>
-          <div class="essay-summary-card">
-            <h4>💡 Saran Perbaikan untuk Guru:</h4>
-            <p style="color: var(--text-muted);">${escapeHtml(data.essays.suggestionsForTeacher)}</p>
-          </div>
-          <div class="essay-summary-card">
-            <h4>✨ Hal Positif yang Membantu:</h4>
-            <p style="color: var(--text-muted);">${escapeHtml(data.essays.positivesAndHelpful)}</p>
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  function escapeHtml(text) {
-    const div = document.createElement("div");
-    div.textContent = text;
-    return div.innerHTML;
-  }
-
   closeModalBtn.addEventListener("click", () => {
     resultModal.classList.remove("show");
+    evaluationForm.reset();
+    anonCheckbox.checked = false;
+    studentNameInput.disabled = false;
+    studentNameInput.placeholder = "Tulis nama siswa atau centang anonim";
+    document.querySelectorAll(".question-item").forEach(el => el.classList.remove("has-error"));
+    updateProgress();
   });
 
   resultModal.addEventListener("click", (e) => {
     if (e.target === resultModal) {
       resultModal.classList.remove("show");
     }
-  });
-
-  copyJsonBtn.addEventListener("click", () => {
-    if (!latestSubmissionData) return;
-    navigator.clipboard.writeText(JSON.stringify(latestSubmissionData, null, 2)).then(() => {
-      copyJsonBtn.textContent = "✓ Data Tersalin!";
-      setTimeout(() => {
-        copyJsonBtn.textContent = "Salin Data (JSON)";
-      }, 2000);
-    });
   });
 
   resetBtn.addEventListener("click", () => {
