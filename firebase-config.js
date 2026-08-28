@@ -1,39 +1,38 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { 
-  getFirestore, 
-  collection, 
-  addDoc, 
-  getDocs, 
-  onSnapshot, 
-  query, 
-  orderBy, 
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  onSnapshot,
+  query,
+  orderBy,
   serverTimestamp,
   deleteDoc,
-  doc
+  doc,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
-  projectId: "lms-matematika",
-  appId: "1:55262690926:web:0304fb47d2e22df78c307f",
-  storageBucket: "lms-matematika.firebasestorage.app",
-  apiKey: "AIzaSyAbOd9idwh_JzFBRJi-NReVoXcPEVCeUqI",
-  authDomain: "lms-matematika.firebaseapp.com",
-  messagingSenderId: "55262690926",
-  projectNumber: "55262690926"
+  apiKey: "AIzaSyBV8LjsN1KM010tos40vSKMRHFHsibLyjY",
+  authDomain: "eval-learn.firebaseapp.com",
+  projectId: "eval-learn",
+  storageBucket: "eval-learn.firebasestorage.app",
+  messagingSenderId: "1079224696305",
+  appId: "1:1079224696305:web:893baf70a4051491215850",
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-export { 
-  db, 
-  collection, 
-  addDoc, 
-  getDocs, 
-  onSnapshot, 
-  query, 
-  orderBy, 
-  serverTimestamp, 
-  deleteDoc, 
-  doc 
+export {
+  db,
+  collection,
+  addDoc,
+  getDocs,
+  onSnapshot,
+  query,
+  orderBy,
+  serverTimestamp,
+  deleteDoc,
+  doc,
 };

@@ -1,0 +1,42 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions untuk validasi
+    function isValidEvaluation() {
+      let data = request.resource.data;
+      
+      return data.keys().hasAll(['topic', 'classSession', 'studentName', 'averageRating', 'essays'])
+        && data.topic is string && data.topic.size() > 0 && data.topic.size() <= 200
+        && data.classSession is string && data.classSession.size() <= 100
+        && data.studentName is string && data.studentName.size() <= 100
+        && data.isAnonymous is bool
+        && (data.averageRating is int || data.averageRating is float)
+        && data.averageRating >= 1.0 && data.averageRating <= 5.0
+        && data.essays is map
+        && (!('issuesAndDifficulties' in data.essays) || (data.essays.issuesAndDifficulties is string && data.essays.issuesAndDifficulties.size() <= 3000))
+        && (!('suggestionsForTeacher' in data.essays) || (data.essays.suggestionsForTeacher is string && data.essays.suggestionsForTeacher.size() <= 3000))
+        && (!('positivesAndHelpful' in data.essays) || (data.essays.positivesAndHelpful is string && data.essays.positivesAndHelpful.size() <= 3000));
+    }
+
+    match /evaluasi_matematika/{docId} {
+      // Izinkan pembacaan data evaluasi untuk rekap dashboard guru
+      allow read: if true;
+
+      // Izinkan siswa membuat dokumen evaluasi baru dengan validasi struktur data & batas ukuran
+      allow create: if isValidEvaluation();
+
+      // Larang pengubahan data yang sudah terkirim (mencegah manipulasi jawaban/nilai)
+      allow update: if false;
+
+      // Izinkan penghapusan dokumen respon oleh admin
+      allow delete: if true;
+    }
+
+    // Blokir akses ke koleksi lain di luar evaluasi_matematika
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
