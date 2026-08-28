@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Rekapitulasi Evaluasi Guru Matematika</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #eef2ff;
+      --secondary: #0ea5e9;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      
+      --rating-1: #ef4444;
+      --rating-2: #f97316;
+      --rating-3: #eab308;
+      --rating-4: #3b82f6;
+      --rating-5: #10b981;
+      
+      --radius: 14px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 24px 16px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    /* Top Nav */
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 9px 18px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 4px rgba(79, 70, 229, 0.3);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-success {
+      background: #059669;
+      color: #fff;
+      box-shadow: 0 2px 4px rgba(5, 150, 105, 0.3);
+    }
+
+    .btn-success:hover {
+      background: #047857;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: #ffffff;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: #f1f5f9;
+    }
+
+    /* Header Banner */
+    .header-banner {
+      background: linear-gradient(135deg, #1e1b4b 0%, #3730a3 60%, #0284c7 100%);
+      color: #ffffff;
+      padding: 28px 24px;
+      border-radius: var(--radius);
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .header-banner h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .header-banner p {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    /* KPI Summary Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .kpi-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .kpi-value {
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .kpi-subtext {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* Card Containers */
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Filters Bar */
+    .filter-bar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .filter-select, .search-input {
+      padding: 8px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      background: #fff;
+      color: var(--text);
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .filter-select:focus, .search-input:focus {
+      border-color: var(--primary);
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 220px;
+    }
+
+    /* Aspek Rating Breakdown Bar */
+    .aspect-bars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 16px;
+    }
+
+    .aspect-bar-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .aspect-bar-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .bar-bg {
+      height: 10px;
+      background: #f1f5f9;
+      border-radius: 999px;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    /* Table */
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      text-align: left;
+    }
+
+    th {
+      background: #f8fafc;
+      padding: 12px 14px;
+      font-weight: 700;
+      color: var(--text);
+      border-bottom: 2px solid var(--border);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    tr:hover td {
+      background: #fafafa;
+    }
+
+    .badge-score {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3px 8px;
+      border-radius: 6px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+
+    .badge-anon {
+      display: inline-block;
+      font-size: 0.725rem;
+      padding: 2px 6px;
+      background: #e2e8f0;
+      color: #475569;
+      border-radius: 4px;
+      font-weight: 600;
+      margin-left: 4px;
+    }
+
+    .bg-1 { background-color: var(--rating-1); }
+    .bg-2 { background-color: var(--rating-2); }
+    .bg-3 { background-color: var(--rating-3); }
+    .bg-4 { background-color: var(--rating-4); }
+    .bg-5 { background-color: var(--rating-5); }
+
+    .btn-action-view {
+      padding: 4px 10px;
+      font-size: 0.78rem;
+      background: var(--primary-light);
+      color: var(--primary);
+      border: 1px solid #c7d2fe;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn-action-view:hover {
+      background: #e0e7ff;
+    }
+
+    .btn-action-delete {
+      padding: 4px 8px;
+      font-size: 0.78rem;
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-left: 4px;
+    }
+
+    .btn-action-delete:hover {
+      background: #fee2e2;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 16px;
+      color: var(--text-muted);
+    }
+
+    .empty-state-icon {
+      font-size: 2.5rem;
+      margin-bottom: 8px;
+    }
+
+    /* Modal Detail */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 680px;
+      max-height: 90vh;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      background: var(--primary);
+      color: #fff;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      font-size: 1.15rem;
+    }
+
+    .modal-close-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .modal-body {
+      padding: 20px 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .essay-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      font-size: 0.875rem;
+    }
+
+    .essay-card h4 {
+      font-size: 0.85rem;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    /* PIN Guard Modal */
+    #pinModal .modal-card {
+      max-width: 380px;
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 16px 8px;
+      }
+      .header-banner {
+        padding: 20px 16px;
+      }
+      .card {
+        padding: 16px 14px;
+      }
+      .filter-bar {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- PIN Guard Prompt (Optional Security) -->
+<div class="modal-backdrop" id="pinModal">
+  <div class="modal-card">
+    <div class="modal-body" style="padding: 28px 24px;">
+      <div style="font-size: 2.5rem; margin-bottom: 8px;">🔐</div>
+      <h3 style="font-size: 1.2rem; margin-bottom: 6px;">Akses Halaman Guru / Admin</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">Masukkan PIN Guru untuk melihat rekapitulasi data evaluasi siswa.</p>
+      
+      <form id="pinForm">
+        <input type="password" id="pinInput" class="form-control search-input" placeholder="Masukkan PIN (Default: guru123)" style="text-align: center; font-size: 1rem; margin-bottom: 12px;" autofocus required>
+        <div style="display: flex; gap: 8px; justify-content: center;">
+          <a href="index.html" class="btn btn-secondary" style="flex: 1;">Kembali ke Form</a>
+          <button type="submit" class="btn btn-primary" style="flex: 1;">Buka Dashboard</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="container" id="mainDashboard" style="display: none;">
+
+  <!-- Top Navigation -->
+  <div class="top-nav">
+    <div class="nav-brand">
+      <span>📊</span> Dashboard Rekapitulasi Evaluasi Guru
+    </div>
+    <div class="nav-actions">
+      <a href="index.html" class="btn btn-secondary">
+        <span>✍️</span> Form Siswa
+      </a>
+      <button type="button" class="btn btn-secondary" id="refreshBtn">
+        <span>🔄</span> Muat Ulang Data
+      </button>
+      <button type="button" class="btn btn-success" id="exportCsvBtn">
+        <span>📥</span> Unduh Rekap (CSV)
+      </button>
+    </div>
+  </div>
+
+  <!-- Header Banner -->
+  <div class="header-banner">
+    <div>
+      <h1>Rekap & Analisis Pembelajaran Matematika</h1>
+      <p>Data evaluasi real-time dari siswa yang tersimpan di Cloud Firestore</p>
+    </div>
+    <div>
+      <span style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 999px; font-size: 0.825rem; font-weight: 600;">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; display: inline-block;"></span>
+        Firestore Connected
+      </span>
+    </div>
+  </div>
+
+  <!-- KPI Overview Cards -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Total Respon Siswa</div>
+      <div class="kpi-value" id="kpiTotalResponses">0</div>
+      <div class="kpi-subtext">Respon evaluasi masuk</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Skor Rata-Rata Kelas</div>
+      <div class="kpi-value" id="kpiAverageScore">0.00</div>
+      <div class="kpi-subtext">Skala 1 - 5 bintang</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Aspek Paling Memuaskan</div>
+      <div class="kpi-value" style="font-size: 1.1rem; color: #059669; padding-top: 8px;" id="kpiTopAspect">-</div>
+      <div class="kpi-subtext" id="kpiTopAspectScore">Skor tertinggi</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Area Perlu Peningkatan</div>
+      <div class="kpi-value" style="font-size: 1.1rem; color: #dc2626; padding-top: 8px;" id="kpiLowAspect">-</div>
+      <div class="kpi-subtext" id="kpiLowAspectScore">Skor paling rendah</div>
+    </div>
+  </div>
+
+  <!-- Rata-rata per Aspek Pengajaran -->
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title"><span>📈</span> Analisis Rata-Rata 10 Aspek Pengajaran</h2>
+      <span style="font-size: 0.825rem; color: var(--text-muted);">Skala 1 (Sangat Kurang) s/d 5 (Sangat Baik)</span>
+    </div>
+    <div class="aspect-bars-grid" id="aspectBarsContainer">
+      <!-- Di-render via JS -->
+    </div>
+  </div>
+
+  <!-- Filter & Tabel Respon Siswa -->
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title"><span>📋</span> Riwayat Respon & Umpan Balik Siswa</h2>
+      <div style="font-size: 0.85rem; color: var(--text-muted);">
+        Menampilkan <strong id="displayedCount">0</strong> data
+      </div>
+    </div>
+
+    <!-- Filter & Search Controls -->
+    <div class="filter-bar">
+      <select class="filter-select" id="filterTopic">
+        <option value="">Semua Materi / Topik</option>
+      </select>
+      <select class="filter-select" id="filterClass">
+        <option value="">Semua Kelas</option>
+      </select>
+      <input type="text" class="search-input" id="searchInput" placeholder="Cari nama siswa, kendala, atau saran...">
+      <button type="button" class="btn btn-secondary" id="resetFilterBtn">Reset Filter</button>
+    </div>
+
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Waktu</th>
+            <th>Nama Siswa</th>
+            <th>Kelas</th>
+            <th>Materi</th>
+            <th>Rata-Rata</th>
+            <th>Umpan Balik / Essai</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="responsesTableBody">
+          <!-- Di-render via JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <div id="emptyState" class="empty-state" style="display: none;">
+      <div class="empty-state-icon">📭</div>
+      <h3>Belum ada data evaluasi</h3>
+      <p>Respon dari siswa yang mengisi form akan otomatis tampil di tabel ini.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal Detail Respon Siswa -->
+<div class="modal-backdrop" id="detailModal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 id="modalStudentTitle">Detail Evaluasi Siswa</h3>
+      <button type="button" class="modal-close-btn" id="closeDetailModalBtn">&times;</button>
+    </div>
+    <div class="modal-body" id="modalDetailBody">
+      <!-- Di-render via JS -->
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { db, collection, getDocs, onSnapshot, query, orderBy, deleteDoc, doc } from "./firebase-config.js";
+
+  // Konfigurasi Aspek
+  const aspectKeys = [
+    { id: "q_pace", label: "Kecepatan Menjelaskan", cat: "Kecepatan & Waktu" },
+    { id: "q_notes", label: "Waktu Mencatat", cat: "Kecepatan & Waktu" },
+    { id: "q_clarity", label: "Kejelasan Rumus", cat: "Kejelasan Konsep" },
+    { id: "q_board_writing", label: "Kerapian Papan Tulis", cat: "Kejelasan Konsep" },
+    { id: "q_examples", label: "Variasi Contoh Soal", cat: "Kejelasan Konsep" },
+    { id: "q_exercise_diff", label: "Kesesuaian Latihan", cat: "Latihan & Pembahasan" },
+    { id: "q_discussion", label: "Pembahasan Soal Sulit", cat: "Latihan & Pembahasan" },
+    { id: "q_responsiveness", label: "Keterbukaan Menjawab", cat: "Interaksi & Pemahaman" },
+    { id: "q_check_understanding", label: "Pengecekan Pemahaman", cat: "Interaksi & Pemahaman" },
+    { id: "q_self_understanding", label: "Pemahaman Mandiri Siswa", cat: "Interaksi & Pemahaman" }
+  ];
+
+  // Simple PIN Security Guard
+  const DEFAULT_PIN = "guru123";
+  const pinModal = document.getElementById("pinModal");
+  const pinForm = document.getElementById("pinForm");
+  const pinInput = document.getElementById("pinInput");
+  const mainDashboard = document.getElementById("mainDashboard");
+
+  function checkAuth() {
+    const isUnlocked = sessionStorage.getItem("admin_unlocked");
+    if (isUnlocked === "true") {
+      pinModal.classList.remove("show");
+      mainDashboard.style.display = "block";
+      initDataListener();
+    } else {
+      pinModal.classList.add("show");
+      mainDashboard.style.display = "none";
+    }
+  }
+
+  pinForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (pinInput.value.trim() === DEFAULT_PIN) {
+      sessionStorage.setItem("admin_unlocked", "true");
+      checkAuth();
+    } else {
+      alert("PIN salah. Silakan coba lagi. (PIN bawaan: guru123)");
+      pinInput.value = "";
+      pinInput.focus();
+    }
+  });
+
+  // Data Store State
+  let rawEvaluations = [];
+
+  function initDataListener() {
+    try {
+      const q = query(collection(db, "evaluasi_matematika"), orderBy("createdAtClient", "desc"));
+      onSnapshot(q, (snapshot) => {
+        rawEvaluations = [];
+        snapshot.forEach(docSnap => {
+          rawEvaluations.push({
+            id: docSnap.id,
+            ...docSnap.data()
+          });
+        });
+        updateDashboardUI();
+      }, (error) => {
+        console.error("Error live listener: ", error);
+        fallbackFetch();
+      });
+    } catch (e) {
+      console.warn("Falling back to getDocs: ", e);
+      fallbackFetch();
+    }
+  }
+
+  async function fallbackFetch() {
+    try {
+      const snapshot = await getDocs(collection(db, "evaluasi_matematika"));
+      rawEvaluations = [];
+      snapshot.forEach(docSnap => {
+        rawEvaluations.push({
+          id: docSnap.id,
+          ...docSnap.data()
+        });
+      });
+      // Sort desc
+      rawEvaluations.sort((a, b) => new Date(b.createdAtClient || 0) - new Date(a.createdAtClient || 0));
+      updateDashboardUI();
+    } catch (err) {
+      console.error("Gagal mengambil data dari Firestore: ", err);
+      alert("Gagal memuat data dari database Firestore: " + err.message);
+    }
+  }
+
+  // Update UI Elements
+  function updateDashboardUI() {
+    populateFilterDropdowns();
+    renderFilteredData();
+  }
+
+  function populateFilterDropdowns() {
+    const topicSelect = document.getElementById("filterTopic");
+    const classSelect = document.getElementById("filterClass");
+    
+    const selectedTopic = topicSelect.value;
+    const selectedClass = classSelect.value;
+
+    const topics = Array.from(new Set(rawEvaluations.map(e => e.topic).filter(Boolean))).sort();
+    const classes = Array.from(new Set(rawEvaluations.map(e => e.classSession).filter(Boolean))).sort();
+
+    topicSelect.innerHTML = '<option value="">Semua Materi / Topik</option>' + 
+      topics.map(t => `<option value="${escapeHtml(t)}" ${t === selectedTopic ? 'selected' : ''}>${escapeHtml(t)}</option>`).join('');
+
+    classSelect.innerHTML = '<option value="">Semua Kelas</option>' + 
+      classes.map(c => `<option value="${escapeHtml(c)}" ${c === selectedClass ? 'selected' : ''}>${escapeHtml(c)}</option>`).join('');
+  }
+
+  function getFilteredEvaluations() {
+    const topicVal = document.getElementById("filterTopic").value.toLowerCase();
+    const classVal = document.getElementById("filterClass").value.toLowerCase();
+    const searchVal = document.getElementById("searchInput").value.trim().toLowerCase();
+
+    return rawEvaluations.filter(item => {
+      const matchTopic = !topicVal || (item.topic && item.topic.toLowerCase() === topicVal);
+      const matchClass = !classVal || (item.classSession && item.classSession.toLowerCase() === classVal);
+      
+      let matchSearch = true;
+      if (searchVal) {
+        const student = (item.studentName || "").toLowerCase();
+        const issues = (item.essays?.issuesAndDifficulties || "").toLowerCase();
+        const sugg = (item.essays?.suggestionsForTeacher || "").toLowerCase();
+        const pos = (item.essays?.positivesAndHelpful || "").toLowerCase();
+        matchSearch = student.includes(searchVal) || issues.includes(searchVal) || sugg.includes(searchVal) || pos.includes(searchVal);
+      }
+
+      return matchTopic && matchClass && matchSearch;
+    });
+  }
+
+  function renderFilteredData() {
+    const list = getFilteredEvaluations();
+    const totalCount = list.length;
+
+    document.getElementById("kpiTotalResponses").textContent = totalCount;
+    document.getElementById("displayedCount").textContent = totalCount;
+
+    if (totalCount === 0) {
+      document.getElementById("kpiAverageScore").textContent = "0.00";
+      document.getElementById("kpiTopAspect").textContent = "-";
+      document.getElementById("kpiTopAspectScore").textContent = "-";
+      document.getElementById("kpiLowAspect").textContent = "-";
+      document.getElementById("kpiLowAspectScore").textContent = "-";
+      document.getElementById("aspectBarsContainer").innerHTML = '<div style="grid-column: 1/-1; color: var(--text-muted); font-size: 0.875rem;">Tidak ada data untuk dianalisis.</div>';
+      document.getElementById("responsesTableBody").innerHTML = "";
+      document.getElementById("emptyState").style.display = "block";
+      return;
+    }
+
+    document.getElementById("emptyState").style.display = "none";
+
+    // Hitung rata-rata keseluruhan & per aspek
+    let sumOverall = 0;
+    const aspectSums = {};
+    const aspectCounts = {};
+
+    aspectKeys.forEach(k => {
+      aspectSums[k.id] = 0;
+      aspectCounts[k.id] = 0;
+    });
+
+    list.forEach(item => {
+      sumOverall += (item.averageRating || 0);
+      aspectKeys.forEach(k => {
+        let score = 0;
+        if (item.scoresFlat && item.scoresFlat[k.id]) {
+          score = item.scoresFlat[k.id];
+        } else if (item.ratings && item.ratings[k.id]) {
+          score = item.ratings[k.id].score;
+        }
+        if (score > 0) {
+          aspectSums[k.id] += score;
+          aspectCounts[k.id]++;
+        }
+      });
+    });
+
+    const avgOverall = (sumOverall / totalCount).toFixed(2);
+    document.getElementById("kpiAverageScore").textContent = avgOverall;
+
+    // Rata-rata per aspek
+    let aspectAverages = aspectKeys.map(k => {
+      const count = aspectCounts[k.id] || 0;
+      const avg = count > 0 ? (aspectSums[k.id] / count) : 0;
+      return {
+        id: k.id,
+        label: k.label,
+        cat: k.cat,
+        avg: avg
+      };
+    });
+
+    // Top and Lowest aspect
+    const sortedAspects = [...aspectAverages].sort((a, b) => b.avg - a.avg);
+    const top = sortedAspects[0];
+    const low = sortedAspects[sortedAspects.length - 1];
+
+    document.getElementById("kpiTopAspect").textContent = top.label;
+    document.getElementById("kpiTopAspectScore").textContent = `${top.avg.toFixed(2)} / 5.0`;
+    document.getElementById("kpiLowAspect").textContent = low.label;
+    document.getElementById("kpiLowAspectScore").textContent = `${low.avg.toFixed(2)} / 5.0`;
+
+    // Render Bar Aspects
+    const getScoreColor = (score) => {
+      if (score <= 2.2) return 'var(--rating-1)';
+      if (score <= 3.2) return 'var(--rating-2)';
+      if (score <= 4.0) return 'var(--rating-3)';
+      if (score <= 4.6) return 'var(--rating-4)';
+      return 'var(--rating-5)';
+    };
+
+    document.getElementById("aspectBarsContainer").innerHTML = aspectAverages.map(asp => {
+      const pct = Math.min(100, (asp.avg / 5) * 100);
+      const color = getScoreColor(asp.avg);
+      return `
+        <div class="aspect-bar-item">
+          <div class="aspect-bar-info">
+            <span>${asp.label} <small style="color: var(--text-muted); font-weight: normal;">(${asp.cat})</small></span>
+            <span style="color: ${color}; font-weight: 700;">${asp.avg.toFixed(2)} / 5</span>
+          </div>
+          <div class="bar-bg">
+            <div class="bar-fill" style="width: ${pct}%; background-color: ${color};"></div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Render Table Rows
+    const tableBody = document.getElementById("responsesTableBody");
+    tableBody.innerHTML = list.map((item, idx) => {
+      const dateStr = item.createdAtClient ? new Date(item.createdAtClient).toLocaleString('id-ID', { dateStyle: 'short', timeStyle: 'short' }) : '-';
+      const avg = (item.averageRating || 0).toFixed(2);
+      
+      const badgeClass = avg >= 4.5 ? 'bg-5' : (avg >= 3.5 ? 'bg-4' : (avg >= 2.5 ? 'bg-3' : 'bg-1'));
+
+      const issues = item.essays?.issuesAndDifficulties || '-';
+      const truncatedIssue = issues.length > 50 ? escapeHtml(issues.substring(0, 50)) + '...' : escapeHtml(issues);
+
+      return `
+        <tr>
+          <td><small style="color: var(--text-muted);">${dateStr}</small></td>
+          <td>
+            <strong>${escapeHtml(item.studentName || 'Anonim')}</strong>
+            ${item.isAnonymous ? '<span class="badge-anon">Anonim</span>' : ''}
+          </td>
+          <td>${escapeHtml(item.classSession || '-')}</td>
+          <td>${escapeHtml(item.topic || '-')}</td>
+          <td>
+            <span class="badge-score ${badgeClass}">${avg}</span>
+          </td>
+          <td>
+            <div style="font-size: 0.8rem; color: var(--text-muted); max-width: 260px;">
+              ${truncatedIssue}
+            </div>
+          </td>
+          <td style="white-space: nowrap;">
+            <button type="button" class="btn-action-view" data-index="${idx}">Lihat Detail</button>
+            <button type="button" class="btn-action-delete" data-id="${item.id}">Hapus</button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    // Attach Row View Actions
+    document.querySelectorAll(".btn-action-view").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        const index = parseInt(e.currentTarget.getAttribute("data-index"), 10);
+        showDetailModal(list[index]);
+      });
+    });
+
+    // Attach Row Delete Actions
+    document.querySelectorAll(".btn-action-delete").forEach(btn => {
+      btn.addEventListener("click", async (e) => {
+        const docId = e.currentTarget.getAttribute("data-id");
+        if (confirm("Apakah kamu yakin ingin menghapus respon evaluasi ini dari Firestore?")) {
+          try {
+            await deleteDoc(doc(db, "evaluasi_matematika", docId));
+            rawEvaluations = rawEvaluations.filter(r => r.id !== docId);
+            updateDashboardUI();
+          } catch (err) {
+            alert("Gagal menghapus dokumen: " + err.message);
+          }
+        }
+      });
+    });
+  }
+
+  // Detail Modal Logic
+  const detailModal = document.getElementById("detailModal");
+  const modalDetailBody = document.getElementById("modalDetailBody");
+  const modalStudentTitle = document.getElementById("modalStudentTitle");
+  const closeDetailModalBtn = document.getElementById("closeDetailModalBtn");
+
+  function showDetailModal(item) {
+    modalStudentTitle.textContent = `Evaluasi: ${item.studentName || 'Anonim'} (${item.classSession || '-'})`;
+
+    const getBadge = (score) => {
+      const cls = score >= 5 ? 'bg-5' : (score >= 4 ? 'bg-4' : (score >= 3 ? 'bg-3' : 'bg-1'));
+      return `<span class="badge-score ${cls}">${score}</span>`;
+    };
+
+    modalDetailBody.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+        <div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Materi / Topik</div>
+          <div style="font-weight: 700; font-size: 1rem;">${escapeHtml(item.topic || '-')}</div>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Rata-Rata Skor</div>
+          <div style="font-weight: 800; font-size: 1.3rem; color: var(--primary);">${(item.averageRating || 0).toFixed(2)} / 5.0</div>
+        </div>
+      </div>
+
+      <div>
+        <h4 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 8px;">📊 Nilai 10 Aspek Pengajaran</h4>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          ${aspectKeys.map(k => {
+            let score = item.scoresFlat?.[k.id] || item.ratings?.[k.id]?.score || '-';
+            return `
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: #f8fafc; border: 1px solid var(--border); border-radius: 6px; font-size: 0.825rem;">
+                <span>${k.label}</span>
+                ${typeof score === 'number' ? getBadge(score) : score}
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <h4 style="font-size: 0.9rem; font-weight: 700; margin-top: 4px;">📝 Jawaban Essai / Masukan Siswa</h4>
+        
+        <div class="essay-card">
+          <h4>⚠️ Kendala & Masalah yang Dihadapi:</h4>
+          <p style="color: var(--text-muted);">${escapeHtml(item.essays?.issuesAndDifficulties || '-')}</p>
+        </div>
+
+        <div class="essay-card">
+          <h4>💡 Saran Perbaikan untuk Guru:</h4>
+          <p style="color: var(--text-muted);">${escapeHtml(item.essays?.suggestionsForTeacher || '-')}</p>
+        </div>
+
+        <div class="essay-card">
+          <h4>✨ Hal Positif & Membantu:</h4>
+          <p style="color: var(--text-muted);">${escapeHtml(item.essays?.positivesAndHelpful || '-')}</p>
+        </div>
+      </div>
+    `;
+
+    detailModal.classList.add("show");
+  }
+
+  closeDetailModalBtn.addEventListener("click", () => detailModal.classList.remove("show"));
+  detailModal.addEventListener("click", (e) => {
+    if (e.target === detailModal) detailModal.classList.remove("show");
+  });
+
+  // Filter Event Listeners
+  document.getElementById("filterTopic").addEventListener("change", renderFilteredData);
+  document.getElementById("filterClass").addEventListener("change", renderFilteredData);
+  document.getElementById("searchInput").addEventListener("input", renderFilteredData);
+
+  document.getElementById("resetFilterBtn").addEventListener("click", () => {
+    document.getElementById("filterTopic").value = "";
+    document.getElementById("filterClass").value = "";
+    document.getElementById("searchInput").value = "";
+    renderFilteredData();
+  });
+
+  document.getElementById("refreshBtn").addEventListener("click", () => {
+    fallbackFetch();
+  });
+
+  // EXPORT CSV FEATURE (Excel & Google Sheets Compatible with UTF-8 BOM)
+  document.getElementById("exportCsvBtn").addEventListener("click", () => {
+    const dataToExport = getFilteredEvaluations();
+    if (dataToExport.length === 0) {
+      alert("Tidak ada data untuk diekspor.");
+      return;
+    }
+
+    const headers = [
+      "Waktu Pengisian",
+      "ID Dokumen",
+      "Nama Siswa",
+      "Mode Anonim",
+      "Kelas",
+      "Topik / Materi",
+      "Skor Rata-Rata",
+      "1. Kecepatan Menjelaskan",
+      "2. Waktu Mencatat",
+      "3. Kejelasan Rumus",
+      "4. Kerapian Papan Tulis",
+      "5. Variasi Contoh Soal",
+      "6. Kesesuaian Latihan",
+      "7. Pembahasan Soal Sulit",
+      "8. Keterbukaan Menjawab",
+      "9. Pengecekan Pemahaman",
+      "10. Pemahaman Mandiri Siswa",
+      "Kendala & Masalah",
+      "Saran Perbaikan Guru",
+      "Hal Positif & Membantu"
+    ];
+
+    const csvRows = [];
+    csvRows.push(headers.map(h => `"${h.replace(/"/g, '""')}"`).join(","));
+
+    dataToExport.forEach(item => {
+      const dateStr = item.createdAtClient ? new Date(item.createdAtClient).toLocaleString('id-ID') : '';
+      const scores = aspectKeys.map(k => {
+        return item.scoresFlat?.[k.id] || item.ratings?.[k.id]?.score || '';
+      });
+
+      const row = [
+        dateStr,
+        item.id || '',
+        item.studentName || 'Anonim',
+        item.isAnonymous ? 'Ya' : 'Tidak',
+        item.classSession || '',
+        item.topic || '',
+        (item.averageRating || 0).toFixed(2),
+        ...scores,
+        item.essays?.issuesAndDifficulties || '',
+        item.essays?.suggestionsForTeacher || '',
+        item.essays?.positivesAndHelpful || ''
+      ];
+
+      csvRows.push(row.map(val => {
+        const textVal = String(val ?? '');
+        return `"${textVal.replace(/"/g, '""')}"`;
+      }).join(","));
+    });
+
+    const csvContent = "\uFEFF" + csvRows.join("\r\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    const filename = `rekap_evaluasi_matematika_${new Date().toISOString().slice(0, 10)}.csv`;
+
+    link.setAttribute("href", url);
+    link.setAttribute("download", filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  });
+
+  function escapeHtml(text) {
+    if (!text) return "";
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // Start Auth Check
+  checkAuth();
+</script>
+
+</body>
+</html>

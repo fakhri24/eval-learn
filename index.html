@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evaluasi Pembelajaran Matematika</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #eef2ff;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      
+      --rating-1: #ef4444;
+      --rating-2: #f97316;
+      --rating-3: #eab308;
+      --rating-4: #3b82f6;
+      --rating-5: #10b981;
+      
+      --radius: 14px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 28px 16px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* Top Nav Bar */
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding: 0 4px;
+    }
+
+    .nav-brand {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .admin-link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 0.825rem;
+      font-weight: 600;
+      color: var(--primary);
+      text-decoration: none;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+
+    .admin-link-btn:hover {
+      background: var(--primary-light);
+      border-color: #c7d2fe;
+      transform: translateY(-1px);
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #312e81 0%, #4338ca 50%, #0284c7 100%);
+      color: #ffffff;
+      padding: 34px 28px;
+      border-radius: var(--radius);
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::after {
+      content: "∑ ∫ π √ %";
+      position: absolute;
+      right: 12px;
+      bottom: -10px;
+      font-size: 4.5rem;
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.07);
+      letter-spacing: 12px;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      border-radius: 9999px;
+      font-size: 0.825rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .header h1 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      line-height: 1.25;
+    }
+
+    .header p {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.92);
+      max-width: 660px;
+    }
+
+    /* Card */
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-title-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 14px;
+    }
+
+    .card-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .card-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Form Fields Grid */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .form-control {
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 0.925rem;
+      color: var(--text);
+      background-color: #fff;
+      transition: var(--transition);
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
+
+    .anonymous-check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      user-select: none;
+    }
+
+    .anonymous-check input {
+      accent-color: var(--primary);
+      width: 15px;
+      height: 15px;
+    }
+
+    /* Rating Scale Legend */
+    .scale-legend {
+      background: #f1f5f9;
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin-bottom: 22px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+      gap: 10px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .legend-badge {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #fff;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .bg-1 { background-color: var(--rating-1); }
+    .bg-2 { background-color: var(--rating-2); }
+    .bg-3 { background-color: var(--rating-3); }
+    .bg-4 { background-color: var(--rating-4); }
+    .bg-5 { background-color: var(--rating-5); }
+
+    /* Category Group */
+    .category-block {
+      margin-bottom: 24px;
+    }
+
+    .category-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .category-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 2px dashed #e2e8f0;
+    }
+
+    /* Question Row */
+    .question-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .question-item {
+      padding: 16px;
+      background: #fafafa;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+    }
+
+    .question-item:hover {
+      background: #ffffff;
+      border-color: #cbd5e1;
+    }
+
+    .question-item.has-error {
+      border-color: var(--rating-1);
+      background-color: #fef2f2;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .question-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .question-desc {
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .question-badge {
+      font-size: 0.725rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #e0e7ff;
+      color: var(--primary);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    /* Rating Button Group */
+    .rating-options {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .rating-label {
+      display: block;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .rating-label input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      width: 0;
+      height: 0;
+    }
+
+    .rating-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 4px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      background: #ffffff;
+      color: var(--text);
+      font-weight: 600;
+      transition: var(--transition);
+      user-select: none;
+      text-align: center;
+    }
+
+    .rating-btn .score-num {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .rating-btn .score-desc {
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .rating-label:hover .rating-btn {
+      border-color: #94a3b8;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Checked Styles */
+    .rating-label input[type="radio"]:checked + .rating-btn.rate-1 {
+      background: #fef2f2;
+      border-color: var(--rating-1);
+      color: var(--rating-1);
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+    }
+    .rating-label input[type="radio"]:checked + .rating-btn.rate-2 {
+      background: #fff7ed;
+      border-color: var(--rating-2);
+      color: #c2410c;
+      box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+    }
+    .rating-label input[type="radio"]:checked + .rating-btn.rate-3 {
+      background: #fefce8;
+      border-color: var(--rating-3);
+      color: #854d0e;
+      box-shadow: 0 0 0 2px rgba(234, 179, 8, 0.2);
+    }
+    .rating-label input[type="radio"]:checked + .rating-btn.rate-4 {
+      background: #eff6ff;
+      border-color: var(--rating-4);
+      color: #1d4ed8;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+    .rating-label input[type="radio"]:checked + .rating-btn.rate-5 {
+      background: #ecfdf5;
+      border-color: var(--rating-5);
+      color: #047857;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+    }
+
+    .rating-label input[type="radio"]:checked + .rating-btn .score-desc {
+      color: inherit;
+      font-weight: 700;
+    }
+
+    /* Essay Section */
+    .essay-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .essay-box {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 16px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+
+    .essay-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .essay-label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .essay-hint {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    textarea.form-control {
+      min-height: 88px;
+      resize: vertical;
+      line-height: 1.5;
+      font-family: inherit;
+    }
+
+    /* Action Bar */
+    .action-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .progress-text {
+      font-size: 0.925rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .progress-text strong {
+      color: var(--primary);
+    }
+
+    .btn {
+      padding: 11px 24px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 5px rgba(79, 70, 229, 0.35);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: #f1f5f9;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 32px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 700px;
+      max-height: 90vh;
+      border-radius: var(--radius);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: scale(0.96);
+      transition: transform 0.25s ease;
+    }
+
+    .modal-backdrop.show .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+      color: #fff;
+      padding: 22px 26px;
+      text-align: center;
+    }
+
+    .modal-header h2 {
+      font-size: 1.4rem;
+      margin-bottom: 4px;
+    }
+
+    .modal-body {
+      padding: 22px 26px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .summary-stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .stat-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .breakdown-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 12px;
+      background: #f8fafc;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      border: 1px solid var(--border);
+    }
+
+    .breakdown-score-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.825rem;
+    }
+
+    .essay-summary-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      font-size: 0.85rem;
+    }
+
+    .essay-summary-card h4 {
+      font-size: 0.85rem;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .modal-footer {
+      padding: 14px 26px;
+      background: #f8fafc;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 16px 10px;
+      }
+      .header {
+        padding: 22px 16px;
+      }
+      .header h1 {
+        font-size: 1.4rem;
+      }
+      .card {
+        padding: 16px 12px;
+      }
+      .rating-options {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 4px;
+      }
+      .rating-btn {
+        padding: 8px 2px;
+      }
+      .rating-btn .score-desc {
+        display: none;
+      }
+      .summary-stat-grid {
+        grid-template-columns: 1fr;
+      }
+      .action-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .btn {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Top Nav Bar -->
+  <div class="top-nav">
+    <div class="nav-brand">
+      <span>📐</span> Evaluasi Pembelajaran Matematika
+    </div>
+    <a href="admin.html" class="admin-link-btn">
+      <span>🔒</span> Rekap Guru & Admin
+    </a>
+  </div>
+
+  <!-- Header Section -->
+  <header class="header">
+    <div class="badge">Formulir Evaluasi Siswa</div>
+    <h1>Evaluasi Pembelajaran Matematika</h1>
+    <p>
+      Berikan penilaian dan umpan balik yang jujur mengenai materi matematika dan performa guru di kelas. 
+      Hasil evaluasi ini tersimpan langsung ke database untuk perbaikan metode mengajar, kecepatan penjelasan rumus, dan latihan soal.
+    </p>
+  </header>
+
+  <form id="evaluationForm" novalidate>
+    
+    <!-- 1. Metadata Sesi Pembelajaran -->
+    <section class="card">
+      <div class="card-title-group">
+        <div class="card-icon">📖</div>
+        <div>
+          <h2 class="card-title">Informasi Topik & Sesi</h2>
+          <p class="card-subtitle">Identitas materi matematika yang baru saja dipelajari</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="topicInput">Topik / Materi Matematika</label>
+          <input type="text" id="topicInput" class="form-control" placeholder="Misal: Trigonometri, Aljabar, Peluang..." value="Trigonometri: Aturan Sinus & Cosinus" required>
+        </div>
+        <div class="form-group">
+          <label for="classInput">Kelas / Pertemuan</label>
+          <input type="text" id="classInput" class="form-control" placeholder="Misal: XI MIPA 1 / Sesi 2" value="Kelas XI - Sesi 3">
+        </div>
+        <div class="form-group">
+          <label for="studentNameInput">Nama Siswa (Opsional)</label>
+          <input type="text" id="studentNameInput" class="form-control" placeholder="Tulis nama siswa atau centang anonim">
+          <label class="anonymous-check">
+            <input type="checkbox" id="anonCheckbox">
+            <span>Kirim secara Anonim (Tanpa Nama)</span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Skala Penilaian Kinerja Guru & Kelas (1-5) -->
+    <section class="card">
+      <div class="card-title-group">
+        <div class="card-icon">⭐</div>
+        <div>
+          <h2 class="card-title">Penilaian Performa Guru & Pemahaman Kelas</h2>
+          <p class="card-subtitle">Pilih nilai skala 1 hingga 5 sesuai pengalaman belajarmu hari ini</p>
+        </div>
+      </div>
+
+      <!-- Keterangan Skala Nilai -->
+      <div class="scale-legend">
+        <div class="legend-item"><span class="legend-badge bg-1">1</span> Sangat Kurang / Sulit</div>
+        <div class="legend-item"><span class="legend-badge bg-2">2</span> Kurang / Cepat / Bingung</div>
+        <div class="legend-item"><span class="legend-badge bg-3">3</span> Cukup / Sedang</div>
+        <div class="legend-item"><span class="legend-badge bg-4">4</span> Baik / Jelas / Pas</div>
+        <div class="legend-item"><span class="legend-badge bg-5">5</span> Sangat Baik / Mudah</div>
+      </div>
+
+      <!-- Kontainer Pertanyaan Berkelompok -->
+      <div id="questionsGroupContainer">
+        <!-- Soal akan di-render via JavaScript -->
+      </div>
+    </section>
+
+    <!-- 3. Essai Saran, Keluhan, & Masalah yang Dihadapi -->
+    <section class="card">
+      <div class="card-title-group">
+        <div class="card-icon">📝</div>
+        <div>
+          <h2 class="card-title">Umpan Balik & Masukan Terbuka (Essai)</h2>
+          <p class="card-subtitle">Tuliskan keluhan, saran perbaikan, atau masalah yang kamu temui saat belajar matematika</p>
+        </div>
+      </div>
+
+      <div class="essay-grid">
+        <!-- 1. Keluhan / Masalah -->
+        <div class="essay-box">
+          <div class="essay-header">
+            <label class="essay-label" for="essayIssues">
+              <span>⚠️</span> 1. Masalah & Keluhan Selama Pembelajaran
+            </label>
+            <span class="essay-hint">Rumus apa yang membingungkan? Kesulitan mencatat/latihan?</span>
+          </div>
+          <textarea id="essayIssues" class="form-control" placeholder="Contoh: Saya kesulitan saat langkah penurunan rumus Aturan Cosinus, guru menghapus papan tulis terlalu cepat, dan latihan soal mandirinya jauh lebih susah dibanding contoh yang diterangkan..."></textarea>
+        </div>
+
+        <!-- 2. Saran Perbaikan -->
+        <div class="essay-box">
+          <div class="essay-header">
+            <label class="essay-label" for="essaySuggestions">
+              <span>💡</span> 2. Saran Perbaikan & Peningkatan untuk Guru
+            </label>
+            <span class="essay-hint">Apa yang sebaiknya diperbaiki atau diubah oleh guru?</span>
+          </div>
+          <textarea id="essaySuggestions" class="form-control" placeholder="Contoh: Mohon berikan jeda waktu 2-3 menit untuk mencatat sebelum lanjut ke soal berikutnya, jelaskan langkah pengerjaan lebih pelan, dan sediakan kunci jawaban singkat setelah latihan..."></textarea>
+        </div>
+
+        <!-- 3. Hal Positif -->
+        <div class="essay-box">
+          <div class="essay-header">
+            <label class="essay-label" for="essayPositives">
+              <span>✨</span> 3. Hal Positif / Metode yang Paling Membantu
+            </label>
+            <span class="essay-hint">Apa yang sudah bagus dan disukai di sesi ini?</span>
+          </div>
+          <textarea id="essayPositives" class="form-control" placeholder="Contoh: Penjelasan konsep gambar segitiganya sangat jelas, guru sabar saat ditanya, dan suasana belajar tidak bikin tegang..."></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom Action & Progress -->
+    <div class="card" style="margin-bottom: 0;">
+      <div class="action-bar">
+        <div class="progress-text" id="progressIndicator">
+          Aspek Terjawab: <strong id="answeredCount">0</strong> dari <strong id="totalCount">0</strong>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button type="button" class="btn btn-secondary" id="resetBtn">Reset</button>
+          <button type="submit" class="btn btn-primary" id="submitBtn">
+            <span id="submitBtnText">Kirim Evaluasi</span>
+            <span id="submitBtnIcon">➔</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  <footer class="footer">
+    <div>Sistem Evaluasi Pembelajaran Matematika • Terintegrasi dengan Firebase Cloud Firestore</div>
+    <div><a href="admin.html" style="color: var(--primary); font-weight: 600; text-decoration: none;">Buka Rekapitulasi Penilaian (Admin Guru)</a></div>
+  </footer>
+
+</div>
+
+<!-- Modal Rekap Hasil Evaluasi -->
+<div class="modal-backdrop" id="resultModal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2>🎉 Evaluasi Berhasil Terkirim!</h2>
+      <p style="font-size: 0.9rem; opacity: 0.92;">Data telah berhasil disimpan ke database Firestore.</p>
+    </div>
+    
+    <div class="modal-body" id="modalBodyContent">
+      <!-- Hasil Ringkasan akan dimasukkan via JS -->
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" id="copyJsonBtn">Salin Data (JSON)</button>
+      <button type="button" class="btn btn-primary" id="closeModalBtn">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { db, collection, addDoc, serverTimestamp } from "./firebase-config.js";
+
+  // Rekomendasi Aspek-Aspek Penilaian Guru Matematika
+  const evaluationCategories = [
+    {
+      name: "Kecepatan & Waktu Pengajaran",
+      items: [
+        {
+          id: "q_pace",
+          title: "Kecepatan Guru Menjelaskan Materi",
+          desc: "Kecepatan berbicara dan alur penjelasan konsep matematika pas (tidak terlalu cepat / tidak buru-buru).",
+          shortLabel: "Kecepatan Menjelaskan"
+        },
+        {
+          id: "q_notes",
+          title: "Waktu & Kemudahan untuk Mencatat",
+          desc: "Guru memberikan jeda waktu yang cukup bagi siswa untuk mencatat materi dan rumus sebelum papan tulis dihapus.",
+          shortLabel: "Waktu Mencatat"
+        }
+      ]
+    },
+    {
+      name: "Kejelasan Konsep & Metode Menerangkan",
+      items: [
+        {
+          id: "q_clarity",
+          title: "Kejelasan Penurunan Rumus & Konsep",
+          desc: "Guru menerangkan asal-usul rumus dan langkah logika matematika dengan runtut, jelas, dan mudah dipahami.",
+          shortLabel: "Kejelasan Rumus"
+        },
+        {
+          id: "q_board_writing",
+          title: "Kerapian & Keterbacaan Papan Tulis / Slide",
+          desc: "Tulisan rumus, grafik, dan langkah hitungan di papan tulis tertata rapi dan mudah dibaca dari belakang.",
+          shortLabel: "Kerapian Papan Tulis"
+        },
+        {
+          id: "q_examples",
+          title: "Variasi & Alur Contoh Soal di Kelas",
+          desc: "Contoh soal yang diberikan bertingkat secara bertahap mulai dari tingkat dasar hingga penerapan nyata.",
+          shortLabel: "Contoh Soal Bertahap"
+        }
+      ]
+    },
+    {
+      name: "Tingkat Kesulitan Latihan & Pembahasan",
+      items: [
+        {
+          id: "q_exercise_diff",
+          title: "Kesesuaian Tingkat Kesulitan Latihan / Tugas",
+          desc: "Tingkat kesulitan soal latihan seimbang dengan apa yang sudah diajarkan (tidak mendadak sangat rumit tanpa contoh serupa).",
+          shortLabel: "Tingkat Kesulitan Latihan"
+        },
+        {
+          id: "q_discussion",
+          title: "Ketuntasan Pembahasan Soal yang Sulit",
+          desc: "Guru membahas ulang nomor-nomor soal yang banyak dirasa sulit oleh siswa dengan sabar dan detail.",
+          shortLabel: "Pembahasan Soal Sulit"
+        }
+      ]
+    },
+    {
+      name: "Interaksi, Suasana Kelas & Pemahaman Pribadi",
+      items: [
+        {
+          id: "q_responsiveness",
+          title: "Keterbukaan Guru Menjawab Pertanyaan",
+          desc: "Guru ramah dan sabar ketika ada siswa yang bertanya atau meminta penjelasan diulang.",
+          shortLabel: "Keterbukaan Menjawab"
+        },
+        {
+          id: "q_check_understanding",
+          title: "Pengecekan Pemahaman Siswa Secara Berkala",
+          desc: "Guru aktif memastikan seluruh siswa paham sebelum beralih ke subtopik atau rumus berikutnya.",
+          shortLabel: "Pengecekan Pemahaman"
+        },
+        {
+          id: "q_self_understanding",
+          title: "Tingkat Pemahaman Saya terhadap Materi Ini",
+          desc: "Seberapa baik dan percaya diri saya dalam mengerjakan soal materi matematika ini secara mandiri.",
+          shortLabel: "Pemahaman Mandiri Siswa"
+        }
+      ]
+    }
+  ];
+
+  const allAspects = evaluationCategories.flatMap(cat => 
+    cat.items.map(item => ({ ...item, category: cat.name }))
+  );
+
+  const ratingDescriptions = {
+    1: "Sangat Kurang",
+    2: "Kurang",
+    3: "Cukup",
+    4: "Baik",
+    5: "Sangat Baik"
+  };
+
+  const questionsGroupContainer = document.getElementById("questionsGroupContainer");
+  const answeredCountEl = document.getElementById("answeredCount");
+  const totalCountEl = document.getElementById("totalCount");
+
+  totalCountEl.textContent = allAspects.length;
+
+  function renderCategories() {
+    let questionIndex = 1;
+    questionsGroupContainer.innerHTML = evaluationCategories.map(cat => {
+      const itemsHtml = cat.items.map(item => {
+        const qNum = questionIndex++;
+        return `
+          <div class="question-item" id="item_${item.id}">
+            <div class="question-header">
+              <div>
+                <div class="question-title">${qNum}. ${item.title}</div>
+                <div class="question-desc">${item.desc}</div>
+              </div>
+              <span class="question-badge">${item.shortLabel}</span>
+            </div>
+            
+            <div class="rating-options">
+              ${[1, 2, 3, 4, 5].map(val => `
+                <label class="rating-label">
+                  <input type="radio" name="${item.id}" value="${val}" data-qid="${item.id}">
+                  <div class="rating-btn rate-${val}">
+                    <span class="score-num">${val}</span>
+                    <span class="score-desc">${ratingDescriptions[val]}</span>
+                  </div>
+                </label>
+              `).join("")}
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      return `
+        <div class="category-block">
+          <div class="category-header">
+            <span>📌</span>
+            <span>${cat.name}</span>
+          </div>
+          <div class="question-list">
+            ${itemsHtml}
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  renderCategories();
+
+  const anonCheckbox = document.getElementById("anonCheckbox");
+  const studentNameInput = document.getElementById("studentNameInput");
+
+  anonCheckbox.addEventListener("change", (e) => {
+    if (e.target.checked) {
+      studentNameInput.value = "";
+      studentNameInput.disabled = true;
+      studentNameInput.placeholder = "Identitas dirahasiakan (Anonim)";
+    } else {
+      studentNameInput.disabled = false;
+      studentNameInput.placeholder = "Tulis nama siswa atau centang anonim";
+    }
+  });
+
+  function updateProgress() {
+    let answered = 0;
+    allAspects.forEach(item => {
+      const checked = document.querySelector(`input[name="${item.id}"]:checked`);
+      const itemElement = document.getElementById(`item_${item.id}`);
+      if (checked) {
+        answered++;
+        if (itemElement) itemElement.classList.remove("has-error");
+      }
+    });
+    answeredCountEl.textContent = answered;
+  }
+
+  questionsGroupContainer.addEventListener("change", (e) => {
+    if (e.target && e.target.type === "radio") {
+      updateProgress();
+    }
+  });
+
+  const evaluationForm = document.getElementById("evaluationForm");
+  const resultModal = document.getElementById("resultModal");
+  const modalBodyContent = document.getElementById("modalBodyContent");
+  const closeModalBtn = document.getElementById("closeModalBtn");
+  const copyJsonBtn = document.getElementById("copyJsonBtn");
+  const resetBtn = document.getElementById("resetBtn");
+  const submitBtn = document.getElementById("submitBtn");
+  const submitBtnText = document.getElementById("submitBtnText");
+  const submitBtnIcon = document.getElementById("submitBtnIcon");
+
+  let latestSubmissionData = null;
+
+  evaluationForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    let unanswered = [];
+    let ratings = {};
+    let scoresFlat = {};
+    let totalScore = 0;
+
+    allAspects.forEach((item, index) => {
+      const checked = document.querySelector(`input[name="${item.id}"]:checked`);
+      const itemEl = document.getElementById(`item_${item.id}`);
+      if (!checked) {
+        unanswered.push(index + 1);
+        if (itemEl) itemEl.classList.add("has-error");
+      } else {
+        const val = parseInt(checked.value, 10);
+        ratings[item.id] = {
+          title: item.title,
+          shortLabel: item.shortLabel,
+          category: item.category,
+          score: val
+        };
+        scoresFlat[item.id] = val;
+        totalScore += val;
+      }
+    });
+
+    if (unanswered.length > 0) {
+      const firstUnansweredEl = document.getElementById(`item_${allAspects[unanswered[0] - 1].id}`);
+      firstUnansweredEl.scrollIntoView({ behavior: "smooth", block: "center" });
+      alert(`Mohon lengkapi penilaian untuk pertanyaan nomor: ${unanswered.join(", ")} sebelum mengirim.`);
+      return;
+    }
+
+    const averageScore = parseFloat((totalScore / allAspects.length).toFixed(2));
+    
+    latestSubmissionData = {
+      createdAtClient: new Date().toISOString(),
+      createdAt: serverTimestamp(),
+      topic: document.getElementById("topicInput").value.trim() || "Matematika",
+      classSession: document.getElementById("classInput").value.trim() || "-",
+      studentName: anonCheckbox.checked ? "Anonim" : (studentNameInput.value.trim() || "Anonim"),
+      isAnonymous: anonCheckbox.checked,
+      averageRating: averageScore,
+      ratings: ratings,
+      scoresFlat: scoresFlat,
+      essays: {
+        issuesAndDifficulties: document.getElementById("essayIssues").value.trim() || "(Tidak ada catatan)",
+        suggestionsForTeacher: document.getElementById("essaySuggestions").value.trim() || "(Tidak ada catatan)",
+        positivesAndHelpful: document.getElementById("essayPositives").value.trim() || "(Tidak ada catatan)"
+      }
+    };
+
+    // UI Loading state
+    submitBtn.disabled = true;
+    submitBtnText.textContent = "Menyimpan ke Firestore...";
+    submitBtnIcon.textContent = "⏳";
+
+    try {
+      // Simpan langsung ke koleksi evaluasi_matematika di Firestore
+      const docRef = await addDoc(collection(db, "evaluasi_matematika"), latestSubmissionData);
+      console.log("Evaluasi berhasil disimpan dengan ID: ", docRef.id);
+      
+      latestSubmissionData.id = docRef.id;
+      renderModalSummary(latestSubmissionData, true);
+      resultModal.classList.add("show");
+    } catch (err) {
+      console.error("Gagal menyimpan ke Firestore: ", err);
+      alert("Catatan: Terjadi kendala saat menyimpan ke database Firestore (" + err.message + "). Formulir tetap dirangkum secara lokal.");
+      renderModalSummary(latestSubmissionData, false);
+      resultModal.classList.add("show");
+    } finally {
+      submitBtn.disabled = false;
+      submitBtnText.textContent = "Kirim Evaluasi";
+      submitBtnIcon.textContent = "➔";
+    }
+  });
+
+  function renderModalSummary(data, isOnlineSaved) {
+    const scoreColorClass = (score) => {
+      if (score <= 2) return "bg-1";
+      if (score <= 3) return "bg-3";
+      if (score <= 4) return "bg-4";
+      return "bg-5";
+    };
+
+    modalBodyContent.innerHTML = `
+      <div style="background: ${isOnlineSaved ? '#ecfdf5' : '#fffbeb'}; border: 1px solid ${isOnlineSaved ? '#a7f3d0' : '#fef08a'}; padding: 10px 14px; border-radius: var(--radius-sm); font-size: 0.85rem; color: ${isOnlineSaved ? '#065f46' : '#854d0e'}; display: flex; align-items: center; gap: 8px;">
+        <span>${isOnlineSaved ? '✅' : '⚠️'}</span>
+        <span>${isOnlineSaved ? 'Data evaluasi berhasil tersimpan ke Firestore (ID: ' + (data.id || '-') + ')' : 'Data tersimpan secara lokal'}</span>
+      </div>
+
+      <div class="summary-stat-grid">
+        <div class="stat-card">
+          <div class="stat-value">${data.averageRating} / 5.0</div>
+          <div class="stat-label">Skor Rata-Rata Pengajaran</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" style="font-size: 1.15rem; color: var(--text); padding-top: 8px;">${escapeHtml(data.topic)}</div>
+          <div class="stat-label">${escapeHtml(data.classSession)} • Oleh: ${escapeHtml(data.studentName)}</div>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 10px;">📊 Rekap Nilai per Aspek</h3>
+        <div class="breakdown-list">
+          ${Object.values(data.ratings).map(item => `
+            <div class="breakdown-row">
+              <span><strong>${escapeHtml(item.shortLabel)}</strong> <small style="color: var(--text-muted);">(${escapeHtml(item.category)})</small></span>
+              <span class="breakdown-score-badge ${scoreColorClass(item.score)}">${item.score}</span>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+
+      <div>
+        <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 10px;">📝 Catatan & Saran Terbuka</h3>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div class="essay-summary-card">
+            <h4>⚠️ Masalah & Kendala Belajar:</h4>
+            <p style="color: var(--text-muted);">${escapeHtml(data.essays.issuesAndDifficulties)}</p>
+          </div>
+          <div class="essay-summary-card">
+            <h4>💡 Saran Perbaikan untuk Guru:</h4>
+            <p style="color: var(--text-muted);">${escapeHtml(data.essays.suggestionsForTeacher)}</p>
+          </div>
+          <div class="essay-summary-card">
+            <h4>✨ Hal Positif yang Membantu:</h4>
+            <p style="color: var(--text-muted);">${escapeHtml(data.essays.positivesAndHelpful)}</p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  closeModalBtn.addEventListener("click", () => {
+    resultModal.classList.remove("show");
+  });
+
+  resultModal.addEventListener("click", (e) => {
+    if (e.target === resultModal) {
+      resultModal.classList.remove("show");
+    }
+  });
+
+  copyJsonBtn.addEventListener("click", () => {
+    if (!latestSubmissionData) return;
+    navigator.clipboard.writeText(JSON.stringify(latestSubmissionData, null, 2)).then(() => {
+      copyJsonBtn.textContent = "✓ Data Tersalin!";
+      setTimeout(() => {
+        copyJsonBtn.textContent = "Salin Data (JSON)";
+      }, 2000);
+    });
+  });
+
+  resetBtn.addEventListener("click", () => {
+    if (confirm("Apakah kamu yakin ingin mereset seluruh isian formulir?")) {
+      evaluationForm.reset();
+      anonCheckbox.checked = false;
+      studentNameInput.disabled = false;
+      studentNameInput.placeholder = "Tulis nama siswa atau centang anonim";
+      document.querySelectorAll(".question-item").forEach(el => el.classList.remove("has-error"));
+      updateProgress();
+    }
+  });
+
+  updateProgress();
+</script>
+
+</body>
+</html>
