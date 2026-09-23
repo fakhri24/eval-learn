@@ -20,7 +20,7 @@ Aplikasi web responsif untuk evaluasi pembelajaran materi matematika dan perform
    - **Penyimpanan Otomatis ke Cloud Firestore**: Data langsung tersimpan secara aman dan real-time.
 
 2. **Dashboard Rekap Guru & Admin (`admin.html`)**:
-   - **Proteksi Akses PIN**: Keamanan akses khusus guru/admin (*Default PIN: `guru123`*).
+   - **Proteksi Akses PIN**: Keamanan akses khusus guru/admin (*Default PIN: `fkhr246`*).
    - **Live KPI Overview**: Total respon, rata-rata skor kelas, aspek paling memuaskan, dan aspek yang perlu perbaikan.
    - **Visual Progress Bar**: Analisis rata-rata nilai dari 10 aspek pengajaran.
    - **Filter & Pencarian Cepat**: Filter berdasarkan Topik, Kelas, atau pencarian teks (nama siswa & isi saran).
@@ -43,6 +43,6 @@ Aplikasi web responsif untuk evaluasi pembelajaran materi matematika dan perform
 Cukup buka file `index.html` (untuk siswa) atau `admin.html` (untuk guru) langsung di browser apa pun.
 
 ### 2. Akses Dashboard Guru (`admin.html`)
-- Masukkan PIN: `guru123`
+- Masukkan PIN: `fkhr246`
 - Setelah login, data evaluasi akan langsung tersinkronisasi.
 - Klik tombol **"Unduh Rekap (CSV)"** untuk mengunduh laporan spreadsheet.

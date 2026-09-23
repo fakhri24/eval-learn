@@ -487,7 +487,7 @@
       <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">Masukkan PIN Guru untuk melihat rekapitulasi data evaluasi siswa.</p>
       
       <form id="pinForm">
-        <input type="password" id="pinInput" class="form-control search-input" placeholder="Masukkan PIN (Default: guru123)" style="text-align: center; font-size: 1rem; margin-bottom: 12px;" autofocus required>
+        <input type="password" id="pinInput" class="form-control search-input" placeholder="Masukkan PIN Guru" style="text-align: center; font-size: 1rem; margin-bottom: 12px;" autofocus required>
         <div style="display: flex; gap: 8px; justify-content: center;">
           <a href="index.html" class="btn btn-secondary" style="flex: 1;">Kembali ke Form</a>
           <button type="submit" class="btn btn-primary" style="flex: 1;">Buka Dashboard</button>
@@ -646,7 +646,7 @@
   ];
 
   // Simple PIN Security Guard
-  const DEFAULT_PIN = "guru123";
+  const DEFAULT_PIN = "fkhr246";
   const pinModal = document.getElementById("pinModal");
   const pinForm = document.getElementById("pinForm");
   const pinInput = document.getElementById("pinInput");
@@ -670,7 +670,7 @@
       sessionStorage.setItem("admin_unlocked", "true");
       checkAuth();
     } else {
-      alert("PIN salah. Silakan coba lagi. (PIN bawaan: guru123)");
+      alert("PIN salah. Silakan periksa kembali PIN Anda.");
       pinInput.value = "";
       pinInput.focus();
     }
