@@ -224,6 +224,15 @@
       box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
     }
 
+    .form-control.has-error {
+      border-color: var(--rating-1);
+      background-color: #fef2f2;
+    }
+
+    select.form-control {
+      cursor: pointer;
+    }
+
     .anonymous-check {
       display: flex;
       align-items: center;
@@ -713,11 +722,16 @@
       <div class="form-grid">
         <div class="form-group">
           <label for="topicInput">Topik / Materi Matematika</label>
-          <input type="text" id="topicInput" class="form-control" placeholder="Misal: Trigonometri, Aljabar, Peluang..." value="Trigonometri: Aturan Sinus & Cosinus" required>
+          <input type="text" id="topicInput" class="form-control" placeholder="Misal: Logaritma, Eksponen, Aljabar..." value="Logaritma" required>
         </div>
         <div class="form-group">
           <label for="classInput">Kelas / Pertemuan</label>
-          <input type="text" id="classInput" class="form-control" placeholder="Misal: XI MIPA 1 / Sesi 2" value="Kelas XI - Sesi 3">
+          <select id="classInput" class="form-control" required>
+            <option value="" disabled selected>-- Pilih Kelas --</option>
+            <option value="X-1">X-1</option>
+            <option value="X-2">X-2</option>
+            <option value="X-3">X-3</option>
+          </select>
         </div>
         <div class="form-group">
           <label for="studentNameInput">Nama Siswa (Opsional)</label>
@@ -1035,9 +1049,26 @@
   const submitBtn = document.getElementById("submitBtn");
   const submitBtnText = document.getElementById("submitBtnText");
   const submitBtnIcon = document.getElementById("submitBtnIcon");
+  const classInput = document.getElementById("classInput");
+
+  classInput.addEventListener("change", () => {
+    if (classInput.value) {
+      classInput.classList.remove("has-error");
+    }
+  });
 
   evaluationForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+
+    if (!classInput.value) {
+      classInput.classList.add("has-error");
+      classInput.focus();
+      classInput.scrollIntoView({ behavior: "smooth", block: "center" });
+      alert("Mohon pilih kelas (X-1, X-2, atau X-3) terlebih dahulu sebelum mengirim.");
+      return;
+    } else {
+      classInput.classList.remove("has-error");
+    }
 
     let unanswered = [];
     let ratings = {};
@@ -1076,7 +1107,7 @@
       createdAtClient: new Date().toISOString(),
       createdAt: serverTimestamp(),
       topic: document.getElementById("topicInput").value.trim() || "Matematika",
-      classSession: document.getElementById("classInput").value.trim() || "-",
+      classSession: classInput.value.trim() || "-",
       studentName: anonCheckbox.checked ? "Anonim" : (studentNameInput.value.trim() || "Anonim"),
       isAnonymous: anonCheckbox.checked,
       averageRating: averageScore,
@@ -1116,6 +1147,7 @@
     studentNameInput.disabled = false;
     studentNameInput.placeholder = "Tulis nama siswa atau centang anonim";
     document.querySelectorAll(".question-item").forEach(el => el.classList.remove("has-error"));
+    classInput.classList.remove("has-error");
     updateProgress();
   });
 
@@ -1132,6 +1164,7 @@
       studentNameInput.disabled = false;
       studentNameInput.placeholder = "Tulis nama siswa atau centang anonim";
       document.querySelectorAll(".question-item").forEach(el => el.classList.remove("has-error"));
+      classInput.classList.remove("has-error");
       updateProgress();
     }
   });
